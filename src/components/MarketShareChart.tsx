@@ -1,8 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
-import { platformData } from "@/lib/mockData";
+import { platformData, PlatformName } from "@/lib/mockData";
 
-const MarketShareChart = () => {
+interface MarketShareChartProps {
+  selectedPlatform?: PlatformName;
+}
+
+const MarketShareChart = ({ selectedPlatform = "All" }: MarketShareChartProps) => {
+  if (selectedPlatform !== "All") return null;
+  
   const data = platformData.map((platform) => ({
     name: platform.name,
     value: platform.subscribers,

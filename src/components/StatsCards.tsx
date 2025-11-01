@@ -1,12 +1,20 @@
 import { Users, DollarSign, Film, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { platformData, formatNumber } from "@/lib/mockData";
+import { platformData, formatNumber, PlatformName } from "@/lib/mockData";
 
-const StatsCards = () => {
-  const totalSubscribers = platformData.reduce((sum, p) => sum + p.subscribers, 0);
-  const totalRevenue = platformData.reduce((sum, p) => sum + p.revenue, 0);
-  const totalCatalog = platformData.reduce((sum, p) => sum + p.catalogSize, 0);
-  const totalWatchTime = platformData.reduce((sum, p) => sum + p.watchTimeHours, 0);
+interface StatsCardsProps {
+  selectedPlatform?: PlatformName;
+}
+
+const StatsCards = ({ selectedPlatform = "All" }: StatsCardsProps) => {
+  const filteredPlatforms = selectedPlatform === "All" 
+    ? platformData 
+    : platformData.filter(p => p.name === selectedPlatform);
+  
+  const totalSubscribers = filteredPlatforms.reduce((sum, p) => sum + p.subscribers, 0);
+  const totalRevenue = filteredPlatforms.reduce((sum, p) => sum + p.revenue, 0);
+  const totalCatalog = filteredPlatforms.reduce((sum, p) => sum + p.catalogSize, 0);
+  const totalWatchTime = filteredPlatforms.reduce((sum, p) => sum + p.watchTimeHours, 0);
 
   const stats = [
     {

@@ -1,7 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { engagementData } from "@/lib/mockData";
+import { engagementData, PlatformName } from "@/lib/mockData";
 
-const EngagementHeatmap = () => {
+interface EngagementHeatmapProps {
+  selectedPlatform?: PlatformName;
+}
+
+const EngagementHeatmap = ({ selectedPlatform = "All" }: EngagementHeatmapProps) => {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const hours = [0, 6, 12, 18, 21];
 
@@ -17,7 +21,12 @@ const EngagementHeatmap = () => {
     <Card className="bg-card/50 backdrop-blur-sm border-border animate-fade-in">
       <CardHeader>
         <CardTitle className="text-xl">Weekly Engagement Heatmap</CardTitle>
-        <CardDescription>User activity patterns by day and time (relative scale)</CardDescription>
+        <CardDescription>
+          {selectedPlatform === "All"
+            ? "User activity patterns by day and time (relative scale)"
+            : `${selectedPlatform} user activity patterns by day and time`
+          }
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">

@@ -1,8 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { platformData } from "@/lib/mockData";
+import { platformData, PlatformName } from "@/lib/mockData";
 
-const PlatformComparisonChart = () => {
+interface PlatformComparisonChartProps {
+  selectedPlatform?: PlatformName;
+}
+
+const PlatformComparisonChart = ({ selectedPlatform = "All" }: PlatformComparisonChartProps) => {
+  if (selectedPlatform !== "All") return null;
+  
   const data = platformData.map((platform) => ({
     name: platform.name,
     Revenue: platform.revenue / 1000000000,

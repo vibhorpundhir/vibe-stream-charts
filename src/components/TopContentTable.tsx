@@ -1,9 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star, TrendingUp } from "lucide-react";
-import { topContent, formatNumber } from "@/lib/mockData";
+import { topContent, formatNumber, PlatformName } from "@/lib/mockData";
 
-const TopContentTable = () => {
+interface TopContentTableProps {
+  selectedPlatform?: PlatformName;
+}
+
+const TopContentTable = ({ selectedPlatform = "All" }: TopContentTableProps) => {
+  const filteredContent = selectedPlatform === "All"
+    ? topContent
+    : topContent.filter(content => content.platform === selectedPlatform);
+
   const getPlatformColor = (platform: string) => {
     switch (platform) {
       case "Netflix":
@@ -24,11 +32,16 @@ const TopContentTable = () => {
           <TrendingUp className="w-5 h-5 text-chart-1" />
           Top Trending Content
         </CardTitle>
-        <CardDescription>Most viewed titles across all platforms</CardDescription>
+        <CardDescription>
+          {selectedPlatform === "All" 
+            ? "Most viewed titles across all platforms" 
+            : `Most viewed titles on ${selectedPlatform}`
+          }
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {topContent.map((content, index) => (
+          {filteredContent.map((content, index) => (
             <div
               key={index}
               className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted/80 transition-all duration-300 border border-transparent hover:border-primary/30"
@@ -39,9 +52,11 @@ const TopContentTable = () => {
                 </div>
                 <div className="flex-1">
                   <h4 className="font-semibold text-foreground mb-1">{content.title}</h4>
-                  <Badge variant="outline" className={getPlatformColor(content.platform)}>
-                    {content.platform}
-                  </Badge>
+                  {selectedPlatform === "All" && (
+                    <Badge variant="outline" className={getPlatformColor(content.platform)}>
+                      {content.platform}
+                    </Badge>
+                  )}
                 </div>
               </div>
               <div className="flex items-center gap-6 text-sm">

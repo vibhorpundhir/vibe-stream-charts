@@ -1,8 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { growthData } from "@/lib/mockData";
+import { growthData, PlatformName } from "@/lib/mockData";
 
-const GrowthTrendsChart = () => {
+interface GrowthTrendsChartProps {
+  selectedPlatform?: PlatformName;
+}
+
+const GrowthTrendsChart = ({ selectedPlatform = "All" }: GrowthTrendsChartProps) => {
+  if (selectedPlatform !== "All") return null;
+  
   return (
     <Card className="bg-card/50 backdrop-blur-sm border-border animate-fade-in">
       <CardHeader>
